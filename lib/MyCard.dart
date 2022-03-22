@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 
 class MyCard extends StatelessWidget {
-  const MyCard({
-    Key? key,
-  }) : super(key: key);
+  final Color color;
+  final Widget? child;
+  final void Function()? onTap;
+
+  MyCard({required this.color, this.child, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        margin: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-            color: const Color(0xff1E1F32),
-            borderRadius: BorderRadius.circular(10)
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          margin: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+              color: this.color, borderRadius: BorderRadius.circular(10)),
+          child: this.child,
         ),
       ),
     );
