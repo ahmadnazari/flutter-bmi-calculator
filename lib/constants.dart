@@ -17,3 +17,6 @@ const kSliderThumbColor =  Color(0xFFEB1555);
 const kSliderOverlayColor = Color(0x29EB1555);
 const kSliderThumbShape = RoundSliderThumbShape(enabledThumbRadius: 15);
 const kSliderOverlayShape = RoundSliderOverlayShape(overlayRadius: 30);
+
+const kBottomContainerColor = Color(0xFFEB1555);
+const kAppBarBackgroundColor = Color(0xff0A0D22);

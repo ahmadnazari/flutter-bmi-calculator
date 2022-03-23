@@ -1,7 +1,9 @@
 import 'dart:developer';
+import 'dart:ffi';
 import 'package:bmi_calculator/MyCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'constants.dart';
 import 'gender_child.dart';
 
@@ -15,6 +17,8 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
   Gender? selectedGender;
   int height = 160;
+  int weight = 70;
+  int age = 25;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +86,6 @@ class _InputPageState extends State<InputPage> {
                   },
                   min: 120,
                   max: 220,
-
                 ),
               ],
             ),
@@ -90,13 +93,116 @@ class _InputPageState extends State<InputPage> {
           Expanded(
             child: Row(
               children: [
-                MyCard(color: kActiveCardColor),
-                MyCard(color: kActiveCardColor),
+                MyCard(
+                    color: kActiveCardColor,
+                    child: BottomCard(
+                      label: 'Weight',
+                      value: weight,
+                      onIncrease: () {
+                        setState(() {
+                          weight--;
+                        });
+                      },
+                      onDecrease: () {
+                        setState(() {
+                          weight++;
+                        });
+                      },
+                    )),
+                MyCard(
+                    color: kActiveCardColor,
+                    child: BottomCard(
+                      label: 'Age',
+                      value: age,
+                      onIncrease: () {
+                        setState(() {
+                          age--;
+                        });
+                      },
+                      onDecrease: () {
+                        setState(() {
+                          age++;
+                        });
+                      },
+                    )),
               ],
             ),
           ),
+          GestureDetector(
+            onTap: (){Navigator.pushNamed(context, '/result');},
+            child: Container(
+              alignment: Alignment.center,
+              child: Text('CALCULATE'),
+              color: kBottomContainerColor,
+              margin: EdgeInsets.only(top: 10),
+              width: double.infinity,
+              height: 70,
+            ),
+          )
         ],
       ),
+    );
+  }
+}
+
+class RoundIconButton extends StatelessWidget {
+  final Icon icon;
+  final void Function() onPressed;
+
+  const RoundIconButton({
+    Key? key,
+    required this.icon,
+    required this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+      onPressed: onPressed,
+      elevation: 0,
+      child: icon,
+      constraints: BoxConstraints.tightFor(
+        width: 56,
+        height: 56,
+      ),
+      shape: CircleBorder(),
+      fillColor: Color(0xFF4C4F5E),
+    );
+  }
+}
+
+class BottomCard extends StatelessWidget {
+  final String label;
+  final int value;
+  final void Function() onIncrease;
+  final void Function() onDecrease;
+
+  const BottomCard(
+      {Key? key,
+      required this.label,
+      required this.value,
+      required this.onIncrease,
+      required this.onDecrease})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(label, style: kInactiveCardTextStyle),
+        Text(value.toString(), style: kCardNumberTextStyle),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            RoundIconButton(
+                icon: Icon(FontAwesomeIcons.minus), onPressed: onDecrease),
+            SizedBox(width: 10),
+            RoundIconButton(
+                icon: Icon(FontAwesomeIcons.plus), onPressed: onIncrease),
+          ],
+        )
+      ],
     );
   }
 }
