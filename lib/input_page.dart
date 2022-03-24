@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'dart:ffi';
 import 'package:bmi_calculator/MyCard.dart';
+import 'package:bmi_calculator/calculator.dart';
+import 'package:bmi_calculator/result_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -130,7 +132,14 @@ class _InputPageState extends State<InputPage> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, '/result');
+              Calculator calc = Calculator(weight, height);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ResultPage(
+                          resultValue: calc.getResultValue(),
+                          resultText: calc.getResultText(),
+                          resultDescription: calc.getDescription())));
             },
             child: Container(
               alignment: Alignment.center,
